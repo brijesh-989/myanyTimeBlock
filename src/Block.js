@@ -1,29 +1,41 @@
 import React, { useState } from 'react';
-import { Input, Button, Modal, Upload } from 'antd';
-import { DeleteOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
-
+import { Input, Button, Modal, Upload, Image } from 'antd';
+import { DeleteOutlined, EditOutlined, UploadOutlined, DragOutlined, ItalicOutlined, BoldOutlined, UnderlineOutlined, CloseOutlined } from '@ant-design/icons';
+import { CenterFocusStrong } from '@material-ui/icons';
+import { red } from '@material-ui/core/colors';
 const { TextArea } = Input;
-
 const Block = ({ id, index, type, data, onRemove, onDragEnd, onDragStart, onDragOver, onHandleBlock, onHandleBlockImage }) => {
     const [isEditing, setEditing] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
+    const [italic, setItalic] = useState(false);
+    const [bold, setBold] = useState(false);
+    const [underline, setUnderline] = useState(false);
+    const [isClickedItalic, setIsClickedItalic] = useState(false);
+    const [isClickedBold, setIsClickedBold] = useState(false);
+    const [isClickedUnderline, setIsClickedUnderline] = useState(false);
+    const [isClickedEdit, setIsClickedEdit] = useState(false);
+    const [isClickedUpload, setIsClickedUpload] = useState(false);
+    const [isClickedClose, setIsClickedClose] = useState(false);
+    const [isClickedDrag, setIsClickedDrag] = useState(false);
+    const [isSelected, setIsSelected] = useState(false);
+
 
     const handleEdit = () => {
-        setEditing(true);
+        setIsClickedEdit(true);
+        setTimeout(() => {
+            setEditing(true);
+            setIsClickedEdit(false);
+        }, 100);
+
     };
     const getBase64 = (img, callback) => {
         const reader = new FileReader();
         reader.addEventListener('load', () => callback(reader.result));
         reader.readAsDataURL(img);
     };
-
     const handleSave = () => {
         setEditing(false);
         onDragEnd(index);
-    };
-
-    const handleCancel = () => {
-        setEditing(false);
     };
     const handleImage = (info) => {
         getBase64(info.file.originFileObj, (url) => {
@@ -31,17 +43,23 @@ const Block = ({ id, index, type, data, onRemove, onDragEnd, onDragStart, onDrag
         });
         onHandleBlockImage(index, imageUrl);
     }
+    const handleDragClick = () => {
+        setIsSelected(true);
+        setIsClickedDrag(true);
+    };
 
+    const handleMouseLeave = () => {
+        setIsClickedDrag(false);
+        setIsSelected(false);
+    };
     return (
-        <div
-            draggable
-            onDragStart={(e) => onDragStart(e, index)}
-            onDragOver={(e) => {
-                onDragOver(e, index);
-            }}
-            onDragEnd={handleSave}
-        >
-            <div className="block" onClick={(e) => e.stopPropagation()}>
+        <div>
+            <div className='block' onClick={(e) => { e.stopPropagation() }}
+                draggable
+                onDragStart={(e) => onDragStart(e, index)}
+                onDragOver={(e) => onDragOver(e, index)}
+                onDragEnd={handleSave}
+            >
                 {type === 'text' ? (
                     <div>
                         {isEditing ? (
@@ -57,43 +75,226 @@ const Block = ({ id, index, type, data, onRemove, onDragEnd, onDragStart, onDrag
                             </div>
                         ) : (
                             <div>
-                                <div className="content">{data}</div>
-                                <Button icon={<EditOutlined />} onClick={handleEdit}>
-                                    Edit
-                                </Button>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <div style={{ marginRight: 'auto' }}
+                                    >
+                                        {/* <DragOutlined
+                                            onClick={handleDragClick}
+                                            //onMouseLeave={handleMouseLeave}
+                                        style={{
+                                            marginRight: '10',
+                                            width: 20,
+                                            height: 20,
+                                            borderRadius: '50%',
+                                            backgroundColor: isClickedDrag ? '#E26F19' : '', // Change color when clicked
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            cursor: 'pointer',
+                                            transition: 'background-color 0.3s', // Smooth transition for color change
+                                        }}
+                                        /> */}
+                                    </div>
+                                    <EditOutlined
+                                        onClick={handleEdit}
+                                        style={{
+                                            width: 20,
+                                            height: 20,
+                                            borderRadius: '50%',
+                                            backgroundColor: isClickedEdit ? '#E26F19' : '', // Change color when clicked
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            cursor: 'pointer',
+                                            transition: 'background-color 0.3s', // Smooth transition for color change
+                                        }}>
+                                    </EditOutlined>
+                                    <ItalicOutlined
+                                        onClick={() => {
+                                            setIsClickedItalic(true);
+                                            setTimeout(() => {
+                                                setIsClickedItalic(false);
+                                            }, 100); // Change 100 to the desired delay in milliseconds
+                                            setItalic(!italic);
+                                        }}
+                                        style={{
+                                            width: 20,
+                                            height: 20,
+                                            borderRadius: '50%',
+                                            backgroundColor: isClickedItalic ? '#E26F19' : '', // Change color when clicked
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            cursor: 'pointer',
+                                            transition: 'background-color 0.3s', // Smooth transition for color change
+                                        }}>
+
+                                    </ItalicOutlined>
+                                    <BoldOutlined
+                                        onClick={() => {
+                                            setIsClickedBold(true);
+                                            setTimeout(() => {
+                                                setIsClickedBold(false);
+                                            }, 100); // Change 100 to the desired delay in milliseconds
+                                            setBold(!bold);
+                                        }}
+                                        style={{
+                                            width: 20,
+                                            height: 20,
+                                            borderRadius: '50%',
+                                            backgroundColor: isClickedBold ? '#E26F19' : '', // Change color when clicked
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            cursor: 'pointer',
+                                            transition: 'background-color 0.3s', // Smooth transition for color change
+                                        }}>
+                                    </BoldOutlined>
+                                    <UnderlineOutlined
+                                        onClick={() => {
+                                            setIsClickedUnderline(true);
+                                            setTimeout(() => {
+                                                setIsClickedUnderline(false);
+                                            }, 100); // Change 100 to the desired delay in milliseconds
+                                            setUnderline(!underline);
+                                        }}
+                                        style={{
+                                            width: 20,
+                                            height: 20,
+                                            borderRadius: '50%',
+                                            backgroundColor: isClickedUnderline ? '#E26F19' : '', // Change color when clicked
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            cursor: 'pointer',
+                                            transition: 'background-color 0.3s', // Smooth transition for color change
+                                        }}>
+                                    </UnderlineOutlined>
+                                    <CloseOutlined
+                                        onClick={() => {
+                                            setIsClickedClose(true);
+                                            setTimeout(() => {
+                                                setIsClickedClose(false);
+                                            }, 100); // Change 100 to the desired delay in milliseconds
+
+                                            Modal.confirm({
+                                                title: 'Delete Block',
+                                                content: 'Are you sure you want to delete this block?',
+                                                onOk: () => onRemove(id),
+                                            });
+                                        }}
+                                        style={{
+                                            width: 20,
+                                            height: 20,
+                                            borderRadius: '50%',
+                                            backgroundColor: isClickedClose ? '#E26F19' : '', // Change color when clicked
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            cursor: 'pointer',
+                                            transition: 'background-color 0.3s', // Smooth transition for color change
+                                        }}
+                                    >
+                                    </CloseOutlined>
+                                </div>
+                                <div className='content'
+                                    style={{
+                                        fontStyle: italic ? 'italic' : 'normal',
+                                        fontWeight: bold ? 'bold' : 'normal',
+                                        textDecoration: underline ? 'underline' : 'none'
+                                    }}
+                                >
+                                    {data}
+                                </div>
+
+
                             </div>
                         )}
                     </div>
                 ) : (
                     <div>
-                        <Upload
-                            onChange={handleImage}
-                        >
-                            <Button
-                                icon={<UploadOutlined />}
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <div style={{ marginRight: 'auto' }}
                             >
-                                upload
-                            </Button>
-                        </Upload>
+                                {/* <DragOutlined
+                                    onClick={handleDragClick}
+                                    onMouseLeave={handleMouseLeave}
+                                // style={{
+                                //     marginRight: '10',
+                                //     width: 20,
+                                //     height: 20,
+                                //     borderRadius: '50%',
+                                //     backgroundColor: isClickedDrag ? '#E26F19' : '', // Change color when clicked
+                                //     display: 'flex',
+                                //     justifyContent: 'center',
+                                //     alignItems: 'center',
+                                //     cursor: 'pointer',
+                                //     transition: 'background-color 0.3s', // Smooth transition for color change
+                                // }}
+                                /> */}
+                            </div>
+                            <Upload
+                                onChange={handleImage}
+                                showUploadList={false}
+                                style={{ marginLeft: 'auto' }}
+                            >
+                                <UploadOutlined
+                                    onClick={() => {
+                                        setIsClickedUpload(true);
+                                        setTimeout(() => {
+                                            setIsClickedUpload(false);
+                                        }, 100);
+                                    }}
+                                    style={{
+                                        width: 20,
+                                        height: 20,
+                                        borderRadius: '50%',
+                                        backgroundColor: isClickedUpload ? '#E26F19' : '', // Change color when clicked
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        cursor: 'pointer',
+                                        transition: 'background-color 0.3s', // Smooth transition for color change
+                                    }}
+                                />
+                            </Upload>
+                            <CloseOutlined
+                                onClick={() => {
+                                    setIsClickedClose(true);
+                                    setTimeout(() => {
+                                        setIsClickedClose(false);
+                                    }, 100); // Change 100 to the desired delay in milliseconds
+
+                                    Modal.confirm({
+                                        title: 'Delete Block',
+                                        content: 'Are you sure you want to delete this block?',
+                                        onOk: () => onRemove(id),
+                                    });
+                                }}
+                                style={{
+                                    width: 20,
+                                    height: 20,
+                                    borderRadius: '50%',
+                                    backgroundColor: isClickedClose ? '#E26F19' : '', // Change color when clicked
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    cursor: 'pointer',
+                                    transition: 'background-color 0.3s', // Smooth transition for color change
+                                }}
+
+                            >
+                            </CloseOutlined>
+                        </div>
                         <div>
-                            {data && <img className='image' src={data} alt='/'></img>}
+                            <Image
+                                width={200}
+                                src={data}
+                            />
                         </div>
                     </div>
-
                 )}
-                <Button
-                    type="danger"
-                    icon={<DeleteOutlined />}
-                    onClick={() => {
-                        Modal.confirm({
-                            title: 'Delete Block',
-                            content: 'Are you sure you want to delete this block?',
-                            onOk: () => onRemove(id),
-                        });
-                    }}
-                >
-                    Delete
-                </Button>
+
             </div >
         </div >
     );

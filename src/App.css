@@ -1,38 +1,47 @@
+body{
+  background: #374046;
+  font-family: 'Open Sans', sans-serif;
+}
 .App {
   text-align: center;
   padding: 20px;
+  margin-top: 20px;
 }
 
 .blocks-container {
   margin-top: 20px;
   display: flex;
-  flex-direction: column; /* Display blocks in a column */
+  flex-direction: column;
+  /* Display blocks in a column */
   align-items: center;
 
 }
 
 .block {
-  border: 1.5px solid violet;
   padding: 10px;
   margin: 10px;
-  width: 200px;
-  background-color:white;
+  object-fit: cover;
+  background-color: #ffe5ec;
   cursor: move;
   font-size: 12px;
+  display: inline-flex;
+  border-radius: 1em;
+}
+
+.delete-button {
+  margin-left: 20px;
 }
 
 .content {
-  margin-bottom: 10px;
+  margin-top: 10px;
   font-size: 12px;
+  width: 200px;
+  display: flex;
   font-family: 'Times New Roman', Times, serif;
+  text-align: justify;
 }
-.image{
-  width: 100px;
-  height: 100px;
-  margin-top: 20px;
-  border-radius: 1em;
-}
-.file > input[type='file'] {
+
+.file>input[type='file'] {
   display: none
 }
 
@@ -44,7 +53,10 @@
   align-items: center;
 }
 
-.file > input[type='file'] {
+.file>input[type='file'] {
   display: none
 }
 
+.block-image {
+  display: inline-flex;
+}

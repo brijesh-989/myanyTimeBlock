@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { Button, Modal } from 'antd';
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { Avatar, Card, Skeleton, Switch } from 'antd';
+import { Button, Modal, icons } from 'antd';
 import './App.css';
 import Block from './Block';
-
 function App() {
   const [blocks, setBlocks] = useState([]);
   const [currId, setcurrId] = useState(null);
@@ -11,7 +12,6 @@ function App() {
     setcurrId(Date.now());
     setBlocks((prevBlocks) => [...prevBlocks, { id: currId, type: blockType, content: null }]);
   };
-
   const removeBlock = (id) => {
     setBlocks((prevBlocks) => prevBlocks.filter((block) => block.id !== id));
   };
@@ -32,7 +32,7 @@ function App() {
     dragOverItem.current = index;
   }
   const handleBlock = (e, index) => {
-    console.log(index);
+
     const _block = [...blocks];
     _block[index].content = e.target.value;
     setBlocks(_block);
@@ -45,45 +45,47 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Button
-        type="primary"
-        onClick={() => {
-          Modal.confirm({
-            title: 'Add Block',
-            content: (
-              <div>
-                <Button onClick={() => addBlock('text')}>Text Block</Button>
-                <Button onClick={() => addBlock('image')}>Image Block</Button>
-              </div>
-            ),
-            onCancel: () => removeBlock(currId),
-          });
-        }}
-      >
-        Add Block
-      </Button>
+    <>
+      <div className="App">
+        <Button
+          type="primary"
+          onClick={() => {
+            Modal.confirm({
+              title: 'Add Block',
+              content: (
+                <div>
+                  <Button onClick={() => addBlock('text')}>Text Block</Button>
+                  <Button onClick={() => addBlock('image')}>Image Block</Button>
+                </div>
+              ),
+              onCancel: () => removeBlock(currId),
+            });
+          }}
+        >
+          Add Block
+        </Button>
 
-      <div>
-        {blocks.map((block, index) => (
-          <div key={index} className="blocks-container">
-            <Block
-              key={block.id}
-              id={block.id}
-              index={index}
-              type={block.type}
-              data={block.content}
-              onRemove={removeBlock}
-              onDragEnd={handleSort}
-              onDragStart={handleDragStart}
-              onDragOver={handleDragOver}
-              onHandleBlock={handleBlock}
-              onHandleBlockImage={handleBlockImage}
-            />
-          </div>
-        ))}
+        <div>
+          {blocks.map((block, index) => (
+            <div key={index} className="blocks-container">
+              <Block
+                key={block.id}
+                id={block.id}
+                index={index}
+                type={block.type}
+                data={block.content}
+                onRemove={removeBlock}
+                onDragEnd={handleSort}
+                onDragStart={handleDragStart}
+                onDragOver={handleDragOver}
+                onHandleBlock={handleBlock}
+                onHandleBlockImage={handleBlockImage}
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
