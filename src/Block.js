@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Input, Button, Modal, Upload, Image } from 'antd';
 import { DeleteOutlined, EditOutlined, UploadOutlined, DragOutlined, ItalicOutlined, BoldOutlined, UnderlineOutlined, CloseOutlined } from '@ant-design/icons';
-import { CenterFocusStrong } from '@material-ui/icons';
-import { red } from '@material-ui/core/colors';
 const { TextArea } = Input;
 const Block = ({ id, index, type, data, onRemove, onDragEnd, onDragStart, onDragOver, onHandleBlock, onHandleBlockImage }) => {
     const [isEditing, setEditing] = useState(false);
