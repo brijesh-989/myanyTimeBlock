@@ -1,7 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { Avatar, Card, Skeleton, Switch } from 'antd';
-import { Button, Modal, icons } from 'antd';
+import React, {useState } from 'react';
+import { Button, Modal} from 'antd';
 import './App.css';
 import Block from './Block';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
@@ -19,9 +17,8 @@ function App() {
   const handleSort = (result) => {
     let _block = [...blocks];
     const draggedItemContent = _block.splice(result.source.index, 1)[0];
-    console.log(draggedItemContent);
-    _block.splice(result.destination.index, 0, draggedItemContent);
-    console.log(_block);
+    if(!result.destination)_block.splice(blocks.length-1,0,draggedItemContent);
+    else  _block.splice(result.destination.index, 0, draggedItemContent);
     setBlocks(_block);
   }
   const handleBlock = (e, index) => {
