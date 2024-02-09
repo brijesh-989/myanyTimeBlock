@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Input, Button, Modal, Upload, Image } from 'antd';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { EditOutlined, UploadOutlined, ItalicOutlined, BoldOutlined, UnderlineOutlined, CloseOutlined } from '@ant-design/icons';
-import { DeleteOutlined, EditOutlined, UploadOutlined, DragOutlined, ItalicOutlined, BoldOutlined, UnderlineOutlined, CloseOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
 function Block ({ id, index, type, data, onRemove, onDragEnd, onDragStart, onDragOver, onHandleBlock, onHandleBlockImage }){
     const [isEditing, setEditing] = useState(false);
@@ -30,7 +29,7 @@ function Block ({ id, index, type, data, onRemove, onDragEnd, onDragStart, onDra
     };
     const handleSave = () => {
         setEditing(false);
-        onDragEnd(index);
+       // onDragEnd(index);
     };
     const handleImage = (info) => {
         getBase64(info.file.originFileObj, (url) => {
@@ -44,6 +43,10 @@ function Block ({ id, index, type, data, onRemove, onDragEnd, onDragStart, onDra
         <div>
             {/* <DragDropContext> */}
                 <div className='block' onClick={(e) => { e.stopPropagation() }}
+                // draggable
+                // onDragStart={(e) => onDragStart(e, index)}
+                // onDragOver={(e) => onDragOver(e, index)}
+                // onDragEnd={handleSave}
                 >
                     {type === 'text' ? (
                         <div>
