@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { Input, Button, Modal, Upload, Image } from 'antd';
-<<<<<<< HEAD
 import { DragDropContext } from 'react-beautiful-dnd';
 import { EditOutlined, UploadOutlined, ItalicOutlined, BoldOutlined, UnderlineOutlined, CloseOutlined } from '@ant-design/icons';
-=======
 import { DeleteOutlined, EditOutlined, UploadOutlined, DragOutlined, ItalicOutlined, BoldOutlined, UnderlineOutlined, CloseOutlined } from '@ant-design/icons';
->>>>>>> 7861fed965a444539148592b241f0ca8390e1847
 const { TextArea } = Input;
 function Block ({ id, index, type, data, onRemove, onDragEnd, onDragStart, onDragOver, onHandleBlock, onHandleBlockImage }){
     const [isEditing, setEditing] = useState(false);
